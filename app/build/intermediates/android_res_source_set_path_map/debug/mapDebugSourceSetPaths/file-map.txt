@@ -1,0 +1,8 @@
+com.booma.app-pngs-0 C:\work\booma apk v1\booma-android\app\build\generated\res\pngs\debug
+com.booma.app-updated_navigation_xml-1 C:\work\booma apk v1\booma-android\app\build\generated\updated_navigation_xml\debug
+com.booma.app-packageDebugResources-2 C:\work\booma apk v1\booma-android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.booma.app-packageDebugResources-3 C:\work\booma apk v1\booma-android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.booma.app-debug-4 C:\work\booma apk v1\booma-android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.booma.app-debug-5 C:\work\booma apk v1\booma-android\app\src\debug\res
+com.booma.app-main-6 C:\work\booma apk v1\booma-android\app\src\main\res
+gradleHome-0 C:\Users\salim\.gradle

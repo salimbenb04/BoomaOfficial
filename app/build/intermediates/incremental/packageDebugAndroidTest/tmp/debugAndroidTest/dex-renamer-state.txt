@@ -1,0 +1,7 @@
+#Thu Oct 15 13:07:47 CET 2026
+base.0=C\:\\work\\booma apk v1\\booma-android\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+base.1=C\:\\work\\booma apk v1\\booma-android\\app\\build\\intermediates\\global_synthetics_dex\\debugAndroidTest\\generateDebugAndroidTestGlobalSynthetics\\classes.dex
+path.0=0/classes.dex
+path.1=classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

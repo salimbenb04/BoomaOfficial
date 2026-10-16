@@ -1,0 +1,24 @@
+com.booma.app
+color ic_launcher_background
+drawable ic_car_like
+drawable ic_car_radio
+drawable ic_car_repeat
+drawable ic_car_repeat_off
+drawable ic_car_repeat_one
+drawable ic_car_shuffle
+drawable ic_cast
+drawable ic_cast_connected
+drawable ic_stat_booma
+drawable ic_widget_next
+drawable ic_widget_pause
+drawable ic_widget_play
+drawable ic_widget_prev
+drawable widget_owl
+mipmap ic_launcher
+mipmap ic_launcher_foreground
+mipmap ic_launcher_round
+string app_name
+string widget_description
+style Theme_Booma
+xml automotive_app_desc
+xml booma_widget_info

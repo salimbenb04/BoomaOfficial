@@ -1,0 +1,4 @@
+# Booma's own code is compiled ahead of time on install (with the profiles the libraries ship),
+# so screens, lists and the player don't run interpreted on first use.
+HSPLcom/booma/app/**->**(**)**
+Lcom/booma/app/**;

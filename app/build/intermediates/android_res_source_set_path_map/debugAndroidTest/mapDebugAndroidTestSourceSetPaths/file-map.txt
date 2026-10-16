@@ -1,0 +1,5 @@
+com.booma.app.test.app-updated_navigation_xml-0 C:\work\booma apk v1\booma-android\app\build\generated\updated_navigation_xml\debugAndroidTest
+com.booma.app.test.app-packageDebugAndroidTestResources-1 C:\work\booma apk v1\booma-android\app\build\intermediates\incremental\debugAndroidTest\packageDebugAndroidTestResources\merged.dir
+com.booma.app.test.app-packageDebugAndroidTestResources-2 C:\work\booma apk v1\booma-android\app\build\intermediates\incremental\debugAndroidTest\packageDebugAndroidTestResources\stripped.dir
+com.booma.app.test.app-debugAndroidTest-3 C:\work\booma apk v1\booma-android\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+gradleHome-0 C:\Users\salim\.gradle

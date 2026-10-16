@@ -1,0 +1,150 @@
+[
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\xml_automotive_app_desc.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\xml\\automotive_app_desc.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-xhdpi_ic_stat_booma.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-xhdpi\\ic_stat_booma.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-xxxhdpi_ic_stat_booma.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-xxxhdpi\\ic_stat_booma.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_cast_connected.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_cast_connected.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_widget_pause.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_widget_pause.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\xml_booma_widget_info.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\xml\\booma_widget_info.xml"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_repeat_one.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_repeat_one.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_widget_play.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_widget_play.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-hdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-mdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-xxhdpi_ic_stat_booma.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-xxhdpi\\ic_stat_booma.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_like.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_like.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_repeat.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_repeat.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_widget_next.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_widget_next.xml"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_shuffle.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_shuffle.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_widget_prev.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_widget_prev.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_repeat_off.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_repeat_off.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-nodpi_widget_owl.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-nodpi\\widget_owl.png"
+    },
+    {
+        "merged": "com.booma.app-debug-62:/drawable_ic_car_radio.xml.flat",
+        "source": "com.booma.app-main-64:/drawable/ic_car_radio.xml"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-mdpi_ic_stat_booma.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-mdpi\\ic_stat_booma.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable-hdpi_ic_stat_booma.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable-hdpi\\ic_stat_booma.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\mipmap-xxxhdpi\\ic_launcher_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-debug-62:\\drawable_ic_cast.xml.flat",
+        "source": "C:\\Users\\salim\\.gradle\\daemon\\9.7.1\\com.booma.app-main-64:\\drawable\\ic_cast.xml"
+    }
+]

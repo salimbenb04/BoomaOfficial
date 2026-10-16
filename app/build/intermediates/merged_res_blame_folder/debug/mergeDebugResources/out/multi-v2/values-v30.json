@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.booma.app-mergeDebugResources-60:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\salim\\.gradle\\caches\\9.7.1\\transforms\\43cec2f00cacf1711b85e697b2933467\\transformed\\material3\\res\\values-v30\\values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

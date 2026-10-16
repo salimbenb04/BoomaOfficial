@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Booma</string>
+    <string name="widget_description">The song playing in Booma with play and skip, and your recent playlists.</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#000000</color>
+    <string name="app_name">Booma</string>
+    <string name="widget_description">The song playing in Booma with play and skip, and your recent playlists.</string>
+    <style name="Theme.Booma" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#FF0B0716</item>
+        <item name="android:statusBarColor">#FF0B0716</item>
+        <item name="android:navigationBarColor">#FF0B0716</item>
+    </style>
+</resources>

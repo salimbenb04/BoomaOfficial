@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Booma TV</title>
+<!-- Booma's own Cast receiver: what your TV shows while you cast from Booma.
+     Plays the audio like Google's standard player, and adds the cover, synced lyrics,
+     up next, the owl and your theme colours, sent from the phone. -->
+<script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+<style>
+  :root {
+    --bg: #0B0716;
+    --bgTop: #231F2D;
+    --bgBottom: #040209;
+    --glowSoft: rgba(111, 227, 255, 0.4);
+    --core: #EAFCFF;
+    --glow: #6FE3FF;
+    --muted: rgba(255, 255, 255, 0.55);
+    --lyric: 2.6vw;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    background: var(--bg); color: #fff;
+    font-family: "Google Sans", Roboto, "Segoe UI", Arial, sans-serif;
+  }
+  #backdrop {
+    position: fixed; inset: 0;
+    background: linear-gradient(180deg, var(--bgTop) 0%, var(--bg) 45%, var(--bgBottom) 100%);
+    transition: background 1.2s ease;
+  }
+  body.flat #backdrop { background: var(--bg); }
+  #coverBlur {
+    position: fixed; inset: -10%;
+    background-size: cover; background-position: center;
+    filter: blur(80px) saturate(1.2); opacity: 0.22;
+    transition: opacity 1s ease;
+  }
+
+  /* playing screen */
+  #stage {
+    position: fixed; inset: 0; display: grid;
+    grid-template-columns: 38vw 1fr; gap: 5vw;
+    padding: 7vh 6vw 6vh 6vw; align-items: center;
+  }
+  body.noLyrics #stage { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  body.noLyrics #lyricsBox { display: none; }
+  #left { display: flex; flex-direction: column; gap: 2.2vh; min-width: 0; max-height: 88vh; overflow: hidden; }
+  body.noLyrics #cover { width: min(100%, 52vh); }
+  body.noLyrics #left { align-items: center; width: 42vw; }
+  #cover {
+    width: min(100%, 46vh); aspect-ratio: 1; border-radius: 1.6vw; object-fit: cover;
+    box-shadow: 0 2vw 5vw rgba(0, 0, 0, 0.55), 0 0 4vw var(--glowSoft);
+    background: rgba(255, 255, 255, 0.06);
+    transition: transform 0.6s cubic-bezier(.2, .9, .3, 1.2);
+  }
+  body.paused #cover { transform: scale(0.94); }
+  #titleRow { display: flex; align-items: center; gap: 1.4vw; min-width: 0; }
+  #titles { min-width: 0; flex: 1; }
+  #title { font-size: 2.6vw; font-weight: 700; letter-spacing: -0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #artist { font-size: 1.6vw; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.4vh; }
+  #owl { width: 5vw; height: 5vw; flex: none; }
+  body.noOwl #owl { display: none; }
+  #bar { height: 0.55vh; border-radius: 1vh; background: rgba(255, 255, 255, 0.18); overflow: hidden; }
+  #fill { height: 100%; width: 0%; border-radius: 1vh; background: linear-gradient(90deg, var(--glow), var(--core)); box-shadow: 0 0 1.2vh var(--glow); }
+  #times { display: flex; justify-content: space-between; font-size: 1.1vw; color: var(--muted); margin-top: -1vh; }
+  body.noLyrics #bar, body.noLyrics #times { width: 100%; }
+
+  /* lyrics */
+  #lyricsBox {
+    position: relative; height: 86vh; overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 70%, transparent 100%);
+  }
+  #lyrics { position: absolute; left: 0; right: 0; top: 0; transition: transform 0.6s cubic-bezier(.25, .8, .3, 1); will-change: transform; }
+  .line {
+    font-size: var(--lyric); font-weight: 700; line-height: 1.25; letter-spacing: -0.02em;
+    padding: 1.1vh 0; color: rgba(255, 255, 255, 0.28);
+    transition: color 0.35s ease, transform 0.35s ease, text-shadow 0.35s ease;
+    transform-origin: left center;
+  }
+  .line.past { color: rgba(255, 255, 255, 0.42); }
+  .line.now { color: #fff; transform: scale(1.04); text-shadow: 0 0 2.4vw var(--glowSoft); }
+  .line.gap { font-size: calc(var(--lyric) * 0.8); }
+  #lyrics.plain .line { color: rgba(255, 255, 255, 0.75); font-weight: 600; }
+  #noLyrics { position: absolute; top: 40%; width: 100%; font-size: 2vw; color: var(--muted); display: none; }
+
+  /* up next */
+  #next { margin-top: 1vh; display: flex; flex-direction: column; gap: 1.2vh; }
+  body.noQueue #next { display: none; }
+  #next h3 { font-size: 1.1vw; text-transform: uppercase; letter-spacing: 0.18em; color: var(--glow); font-weight: 600; }
+  .nx { display: flex; align-items: center; gap: 1vw; min-width: 0; }
+  .nx img { width: 3.4vw; height: 3.4vw; border-radius: 0.5vw; object-fit: cover; background: rgba(255, 255, 255, 0.08); flex: none; }
+  .nx div { min-width: 0; }
+  .nx b { display: block; font-size: 1.2vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nx span { display: block; font-size: 1vw; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* idle */
+  #idle { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; }
+  #idle svg { width: 16vw; height: 16vw; }
+  #idle h1 { font-size: 4vw; letter-spacing: -0.04em; }
+  #idle p { font-size: 1.6vw; color: var(--muted); }
+  body.idle #stage, body.idle #coverBlur { display: none; }
+  body:not(.idle) #idle { display: none; }
+
+  /* lyrics fill the screen */
+  #mini { position: fixed; top: 5vh; left: 8vw; right: 16vw; display: none; align-items: center; gap: 1.4vw; }
+  #mini img { width: 5vw; height: 5vw; border-radius: 0.8vw; object-fit: cover; }
+  #mini b { display: block; font-size: 1.6vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mini span { display: block; font-size: 1.2vw; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  body.big:not(.noLyrics) #mini { display: flex; }
+  body.big:not(.noLyrics) #left { display: none; }
+  body.big:not(.noLyrics) #stage { grid-template-columns: 1fr; padding: 16vh 8vw 4vh 8vw; }
+  body.big:not(.noLyrics) #lyricsBox { height: 80vh; }
+  body.big:not(.noLyrics) .line { text-align: center; transform-origin: center center; }
+
+  /* clock */
+  #clock { position: fixed; top: 4vh; right: 4vw; font-size: 1.6vw; color: var(--muted); font-weight: 600; letter-spacing: 0.02em; }
+  body.noClock #clock { display: none; }
+
+  /* the owl */
+  .owlLines path { fill: none; stroke: var(--core); stroke-width: 34; stroke-linecap: round; stroke-linejoin: round; }
+  .owlPupils path { fill: var(--core); }
+  .owlWrap { filter: drop-shadow(0 0 18px var(--glow)); transform-origin: 512px 560px; }
+  body.playing .owlWrap { animation: bob 0.625s ease-in-out infinite alternate; }
+  .eyes { transform-origin: center 468px; transform-box: view-box; animation: blink 4.6s infinite; }
+  @keyframes bob { from { transform: translateY(-8px) rotate(-2deg); } to { transform: translateY(8px) rotate(2deg); } }
+  @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.08); } }
+</style>
+</head>
+<body class="idle">
+<div id="backdrop"></div>
+<div id="coverBlur"></div>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="owlShape">
+      <g class="owlWrap">
+        <g class="owlLines">
+          <path d="M512,335 C470,270 390,255 330,268 C240,288 195,380 200,480 C210,640 380,760 512,865 C644,760 814,640 824,480 C829,380 784,288 694,268 C634,255 554,270 512,335 Z"/>
+          <path d="M892,480 A380,380 0 0 0 132,480"/>
+          <path d="M842,480 A330,330 0 0 0 182,480"/>
+          <path d="M142,432 L158,432 A40,40 0 0 1 198,472 L198,618 A40,40 0 0 1 158,658 L142,658 A40,40 0 0 1 102,618 L102,472 A40,40 0 0 1 142,432 Z"/>
+          <path d="M866,432 L882,432 A40,40 0 0 1 922,472 L922,618 A40,40 0 0 1 882,658 L866,658 A40,40 0 0 1 826,618 L826,472 A40,40 0 0 1 866,432 Z"/>
+          <path d="M430,500 C440,600 480,690 512,775 C544,690 584,600 594,500"/>
+          <path d="M512,408 L512,578"/>
+          <path d="M512,625 L550,662 L512,698 L474,662 Z"/>
+          <g class="eyes">
+            <path d="M296,468 A62,62 0 1 0 420,468 A62,62 0 1 0 296,468 Z"/>
+            <path d="M604,468 A62,62 0 1 0 728,468 A62,62 0 1 0 604,468 Z"/>
+          </g>
+        </g>
+        <g class="owlPupils eyes">
+          <path d="M344,468 A14,14 0 1 0 372,468 A14,14 0 1 0 344,468 Z"/>
+          <path d="M652,468 A14,14 0 1 0 680,468 A14,14 0 1 0 652,468 Z"/>
+        </g>
+      </g>
+    </g>
+  </defs>
+</svg>
+
+<div id="clock"></div>
+<div id="mini"><img id="miniCover" alt=""><div><b id="miniTitle"></b><span id="miniArtist"></span></div></div>
+
+<div id="idle">
+  <svg viewBox="0 0 1024 1024"><use href="#owlShape"/></svg>
+  <h1>Booma</h1>
+  <p>Pick a song on your phone to play it here.</p>
+</div>
+
+<div id="stage">
+  <div id="left">
+    <img id="cover" alt="">
+    <div id="titleRow">
+      <div id="titles">
+        <div id="title"></div>
+        <div id="artist"></div>
+      </div>
+      <svg id="owl" viewBox="0 0 1024 1024"><use href="#owlShape"/></svg>
+    </div>
+    <div id="bar"><div id="fill"></div></div>
+    <div id="times"><span id="pos">0:00</span><span id="dur">0:00</span></div>
+    <div id="next"></div>
+  </div>
+  <div id="lyricsBox">
+    <div id="lyrics"></div>
+    <div id="noLyrics">No lyrics for this song</div>
+  </div>
+</div>
+
+<audio id="media"></audio>
+
+<script>
+  const NS = 'urn:x-cast:com.booma.tv';
+  const SIZES = { s: '2vw', m: '2.6vw', l: '3.4vw' };
+  const body = document.body;
+  const $ = (id) => document.getElementById(id);
+
+  // what the phone sent
+  let settings = { lyrics: true, queue: true, owl: true, size: 'm', coverColors: true, gradient: true, big: false, clock: true,
+                   bg: '#0B0716', core: '#EAFCFF', glow: '#6FE3FF' };
+  let track = null;          // { id, title, artist, art, synced, lines: [{t, text}], next: [...], bg?, core?, glow? }
+  let shownKey = '';         // the song on screen (title + artist)
+  let lines = [];            // lyrics on screen
+  let synced = false;
+  let activeLine = -1;
+  const fallbackCache = {};  // lyrics fetched by the TV itself (title|artist -> {synced, lines})
+
+  const context = cast.framework.CastReceiverContext.getInstance();
+  const player = context.getPlayerManager();
+  player.setMediaElement($('media'));
+
+  context.addCustomMessageListener(NS, (event) => {
+    const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+    if (data.type === 'settings') {
+      settings = Object.assign(settings, data);
+      applySettings();
+    } else if (data.type === 'track') {
+      track = data;
+      shownKey = '';   // redraw with the new lyrics / up next
+      refresh();
+    }
+  });
+
+  const options = new cast.framework.CastReceiverOptions();
+  options.customNamespaces = { [NS]: cast.framework.system.MessageType.JSON };
+  options.maxInactivity = 3600;
+
+  // Ask the phone for the settings and the playing song's lyrics. Sent when the screen is ready, when a
+  // phone connects, and whenever the song on screen has no details from the phone yet.
+  let lastAsk = 0;
+  function askPhone() {
+    const now = Date.now();
+    if (now - lastAsk < 2000) return;
+    lastAsk = now;
+    try { context.sendCustomMessage(NS, undefined, { type: 'ready' }); } catch (e) {}
+  }
+  context.addEventListener(cast.framework.system.EventType.READY, () => askPhone());
+  context.addEventListener(cast.framework.system.EventType.SENDER_CONNECTED, () => {
+    setTimeout(askPhone, 800);
+    setTimeout(askPhone, 3000);
+  });
+  context.start(options);
+
+  function applySettings() {
+    document.documentElement.style.setProperty('--lyric', SIZES[settings.size] || SIZES.m);
+    body.classList.toggle('noOwl', !settings.owl);
+    body.classList.toggle('noQueue', !settings.queue);
+    body.classList.toggle('flat', settings.gradient === false);
+    body.classList.toggle('big', !!settings.big);
+    body.classList.toggle('noClock', settings.clock === false);
+    applyColors();
+    shownKey = '';
+    refresh();
+  }
+
+  function applyColors() {
+    const useCover = settings.coverColors && track && track.bg && sameSong();
+    const c = useCover ? track : settings;
+    const root = document.documentElement.style;
+    const bg = c.bg || settings.bg;
+    const glow = c.glow || settings.glow;
+    root.setProperty('--bg', bg);
+    root.setProperty('--bgTop', mix(bg, [255, 255, 255], 0.10));
+    root.setProperty('--bgBottom', mix(bg, [0, 0, 0], 0.60));
+    root.setProperty('--core', c.core || settings.core);
+    root.setProperty('--glow', glow);
+    const g = rgb(glow);
+    root.setProperty('--glowSoft', 'rgba(' + g.join(',') + ',0.4)');
+  }
+
+  function rgb(hex) {
+    const n = parseInt(hex.replace('#', ''), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+
+  function mix(hex, to, amount) {
+    const c = rgb(hex).map((v, k) => Math.round(v + (to[k] - v) * amount));
+    return 'rgb(' + c.join(',') + ')';
+  }
+
+  function info() {
+    const media = player.getMediaInformation();
+    if (!media) return null;
+    const md = media.metadata;
+    // no details came with the audio: use what the phone sent
+    if (!md || !md.title) return track ? { title: track.title, artist: track.artist, art: track.art } : null;
+    const art = md.images && md.images.length ? md.images[0].url : (track && track.title === md.title ? track.art : '');
+    return { title: md.title || '', artist: md.artist || md.subtitle || '', art };
+  }
+
+  function sameSong() {
+    const i = info();
+    return !!(i && track && track.title === i.title);
+  }
+
+  function fmt(sec) {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  // Lyrics when the phone hasn't sent any for this song: ask lrclib.net, like the phone does.
+  function fetchLyrics(title, artist) {
+    const key = title + '|' + artist;
+    if (fallbackCache[key]) return;
+    fallbackCache[key] = { synced: false, lines: [] };
+    const clean = title.replace(/\s*[(\[].*?[)\]]/g, '').trim() || title;
+    const main = artist.split(/,|&| x | feat/)[0].trim();
+    fetch('https://lrclib.net/api/search?track_name=' + encodeURIComponent(clean) + '&artist_name=' + encodeURIComponent(main))
+      .then((r) => r.json())
+      .then((results) => {
+        const hit = results.find((r) => r.syncedLyrics) || results.find((r) => r.plainLyrics);
+        if (!hit) return;
+        fallbackCache[key] = hit.syncedLyrics ? parseLrc(hit.syncedLyrics) : { synced: false, lines: hit.plainLyrics.split('\n').map((text) => ({ t: -1, text })) };
+        shownKey = '';
+        refresh();
+      })
+      .catch(() => {});
+  }
+
+  function parseLrc(text) {
+    const out = [];
+    text.split('\n').forEach((row) => {
+      const stamps = [...row.matchAll(/\[(\d+):(\d+(?:\.\d+)?)\]/g)];
+      if (!stamps.length) return;
+      const words = row.slice(stamps[stamps.length - 1].index + stamps[stamps.length - 1][0].length).trim();
+      stamps.forEach((m) => out.push({ t: Math.round((+m[1] * 60 + +m[2]) * 1000), text: words }));
+    });
+    out.sort((a, b) => a.t - b.t);
+    return { synced: true, lines: out };
+  }
+
+  function drawSong(i) {
+    $('title').textContent = i.title;
+    $('artist').textContent = i.artist;
+    $('miniTitle').textContent = i.title;
+    $('miniArtist').textContent = i.artist;
+    if (i.art) {
+      $('cover').src = i.art;
+      $('miniCover').src = i.art;
+      $('coverBlur').style.backgroundImage = 'url("' + i.art + '")';
+    }
+    // lyrics: the phone's, else the TV's own lookup
+    let ly = null;
+    if (sameSong()) ly = { synced: track.synced, lines: track.lines || [] };
+    else {
+      ly = fallbackCache[i.title + '|' + i.artist];
+      if (!ly && settings.lyrics) fetchLyrics(i.title, i.artist);
+    }
+    synced = !!(ly && ly.synced);
+    lines = (ly && ly.lines) || [];
+    activeLine = -1;
+    const box = $('lyrics');
+    box.innerHTML = '';
+    box.style.transform = 'translateY(0)';
+    box.classList.toggle('plain', !synced);
+    lines.forEach((l) => {
+      const d = document.createElement('div');
+      d.className = 'line' + (l.text ? '' : ' gap');
+      d.textContent = l.text || '♪';
+      box.appendChild(d);
+    });
+    $('noLyrics').style.display = lines.length ? 'none' : 'block';
+    body.classList.toggle('noLyrics', !settings.lyrics);
+    // up next
+    const next = $('next');
+    next.innerHTML = '';
+    if (sameSong() && track.next && track.next.length) {
+      const h = document.createElement('h3');
+      h.textContent = 'Up next';
+      next.appendChild(h);
+      track.next.forEach((n) => {
+        const row = document.createElement('div');
+        row.className = 'nx';
+        row.innerHTML = '<img alt=""><div><b></b><span></span></div>';
+        if (n.art) row.querySelector('img').src = n.art;
+        row.querySelector('b').textContent = n.title;
+        row.querySelector('span').textContent = n.artist;
+        next.appendChild(row);
+      });
+    }
+    applyColors();
+  }
+
+  function followLyrics(posMs, durMs) {
+    const box = $('lyrics');
+    const rows = box.children;
+    if (!rows.length) return;
+    let idx;
+    if (synced) {
+      idx = -1;
+      for (let k = 0; k < lines.length; k++) { if (lines[k].t <= posMs + 250) idx = k; else break; }
+    } else {
+      // plain lyrics scroll along with the song
+      idx = durMs > 0 ? Math.floor((posMs / durMs) * rows.length) : 0;
+    }
+    if (idx === activeLine) return;
+    activeLine = idx;
+    for (let k = 0; k < rows.length; k++) {
+      rows[k].classList.toggle('now', synced && k === idx);
+      rows[k].classList.toggle('past', synced && k < idx);
+    }
+    const target = rows[Math.max(0, idx)];
+    const boxH = box.parentElement.clientHeight;
+    const y = Math.max(0, target.offsetTop - boxH * 0.38);
+    box.style.transform = 'translateY(' + (-y) + 'px)';
+  }
+
+  function refresh() {
+    const i = info();
+    if (!i) { body.classList.add('idle'); return; }
+    body.classList.remove('idle');
+    const key = i.title + '|' + i.artist;
+    if (key !== shownKey) {
+      shownKey = key;
+      drawSong(i);
+    }
+    if (!sameSong()) askPhone();   // a new song the phone hasn't described yet
+  }
+
+  function tickClock() {
+    const d = new Date();
+    $('clock').textContent = d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  tickClock();
+  setInterval(tickClock, 10000);
+
+  // position, play state and lyrics follow the audio
+  setInterval(() => {
+    refresh();
+    if (body.classList.contains('idle')) return;
+    const pos = player.getCurrentTimeSec() || 0;
+    const dur = player.getDurationSec() || 0;
+    const playing = player.getPlayerState() === cast.framework.messages.PlayerState.PLAYING;
+    body.classList.toggle('playing', playing);
+    body.classList.toggle('paused', !playing);
+    $('fill').style.width = (dur > 0 ? Math.min(100, (pos / dur) * 100) : 0) + '%';
+    $('pos').textContent = fmt(pos);
+    $('dur').textContent = fmt(dur);
+    if (settings.lyrics) followLyrics(pos * 1000, dur * 1000);
+  }, 200);
+
+  applySettings();
+</script>
+</body>
+</html>
